@@ -1,6 +1,6 @@
 [package]
 name = "parasail-sys"
-version = "0.2.3"
+version = "0.2.4"
 authors = ["Adam Perry <adam.n.perry@gmail.com>"]
 links = "parasail"
 build = "build.rs"
