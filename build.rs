@@ -9,21 +9,22 @@ use std::path::Path;
 use std::process::Command;
 
 fn main() {
-    let out_dir = env!("OUT_DIR");
-    let num_jobs = env::var("NUM_JOBS").unwrap_or("1".to_string());
+    let out_dir = env::var("OUT_DIR").unwrap();
+    let num_jobs = env::var("NUM_JOBS").unwrap();
+    let c_src_path = Path::new("parasail_c");
 
     // configure the build
     Command::new("./configure")
         .arg("--enable-shared")
         .arg("--with-pic")
-        .current_dir(Path::new("parasail_c"))
+        .current_dir(&c_src_path)
         .output()
         .expect("Failed to configure parasail.");
 
     // build the library
     Command::new("make")
         .arg(format!("-j{}", num_jobs))
-        .current_dir(Path::new("parasail_c"))
+        .current_dir(&c_src_path)
         .output()
         .expect("Failed to build parasail.");
 
@@ -34,7 +35,7 @@ fn main() {
 
     // clean up the temporary build files
     Command::new("make")
-        .current_dir(Path::new("parasail_c"))
+        .current_dir(&c_src_path)
         .arg("clean")
         .output()
         .expect("Failed to clean up build files.");
@@ -42,7 +43,7 @@ fn main() {
     // clean up the configuration files
     Command::new("make")
         .arg("distclean")
-        .current_dir(Path::new("parasail_c"))
+        .current_dir(&c_src_path)
         .output()
         .expect("Failed to clean up configuration files.");
 
