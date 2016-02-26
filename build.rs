@@ -12,6 +12,7 @@ fn main() {
 
     // configure the build
     Command::new("./configure")
+        .arg("--enable-shared")
         .current_dir(Path::new("parasail_c"))
         .output()
         .expect("Failed to configure parasail.");
@@ -36,8 +37,8 @@ fn main() {
 
     // clean up the configuration files
     Command::new("make")
-        .current_dir(Path::new("parasail_c"))
         .arg("distclean")
+        .current_dir(Path::new("parasail_c"))
         .output()
         .expect("Failed to clean up configuration files.");
 
