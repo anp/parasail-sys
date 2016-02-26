@@ -3,12 +3,14 @@
 // This software may be modified and distributed under the terms of the MIT license.  See the
 // LICENSE file for details.
 
+use std::env;
 use std::fs::copy;
 use std::path::Path;
 use std::process::Command;
 
 fn main() {
     let out_dir = env!("OUT_DIR");
+    let num_jobs = env::var("NUM_JOBS").unwrap_or("1".to_string());
 
     // configure the build
     Command::new("./configure")
@@ -20,6 +22,7 @@ fn main() {
 
     // build the library
     Command::new("make")
+        .arg(format!("-j{}", num_jobs))
         .current_dir(Path::new("parasail_c"))
         .output()
         .expect("Failed to build parasail.");
