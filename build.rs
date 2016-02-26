@@ -13,6 +13,7 @@ fn main() {
     // configure the build
     Command::new("./configure")
         .arg("--enable-shared")
+        .arg("--with-pic")
         .current_dir(Path::new("parasail_c"))
         .output()
         .expect("Failed to configure parasail.");
